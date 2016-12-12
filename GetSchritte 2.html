@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript">
+    
+var data = {
+  "aggregateBy": [{
+    "dataTypeName": "com.google.step_count.delta",
+    "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+  }],
+  "bucketByTime": { "durationMillis": 86400000 },
+  "startTimeMillis": 1475272800000,
+  "endTimeMillis": 1476914400000 };
+var url="https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
+$.ajax({
+  type: "POST",
+  url: url,
+  data: JSON.stringify(data),
+  headers: {
+    "Host": "www.googleapis.com",
+    "Authorization": "Bearer ya29.Ci-xA0nN4ft2cMB21KhC3wv6jW46JBaomD3x12RrwlaJQBR8ZFPKIJtdVW8xR1b46w",
+    "Content-type": "application/json"
+  },
+  success: function(response){
+    alert("done");
+    console.log("RESPONSE ARRAY:");
+    //insert funktion to show dinge from array here = dinge sind im array response.bucket
+    console.log(response.bucket[0].dataset[0].point[0].value[0].intVal);
+  }
+});
+    </script>
+  </head>
+  <body>
+    
+  </body>
+</html>
