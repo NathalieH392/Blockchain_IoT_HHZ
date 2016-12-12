@@ -1,0 +1,445 @@
+[
+    {
+        "id": "58e28b68.683b0c",
+        "type": "tab",
+        "label": "HHZ DBM "
+    },
+    {
+        "id": "3e77d543.c1882a",
+        "type": "ibmiot in",
+        "z": "58e28b68.683b0c",
+        "authentication": "boundService",
+        "apiKey": "",
+        "inputType": "evt",
+        "deviceId": "",
+        "applicationId": "",
+        "deviceType": "+",
+        "eventType": "+",
+        "commandType": "",
+        "format": "json",
+        "name": "IBM IoT App In",
+        "service": "registered",
+        "allDevices": true,
+        "allApplications": false,
+        "allDeviceTypes": true,
+        "allEvents": true,
+        "allCommands": false,
+        "allFormats": true,
+        "qos": "0",
+        "x": 100,
+        "y": 400,
+        "wires": [
+            [
+                "c0c482df.3f3b8",
+                "75cc2a49.4f3884"
+            ]
+        ]
+    },
+    {
+        "id": "ae0082ac.51ff8",
+        "type": "function",
+        "z": "58e28b68.683b0c",
+        "name": "steps",
+        "func": "return {payload:msg.payload.d.steps};",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 381,
+        "y": 453,
+        "wires": [
+            [
+                "ff6ad0d9.00953"
+            ]
+        ]
+    },
+    {
+        "id": "ff6ad0d9.00953",
+        "type": "switch",
+        "z": "58e28b68.683b0c",
+        "name": "steps thresh",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "",
+                "vt": "prev"
+            },
+            {
+                "t": "gt",
+                "v": "",
+                "vt": "prev"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 539,
+        "y": 453,
+        "wires": [
+            [
+                "80621eff.7f9de"
+            ],
+            [
+                "8e1706a.f71e8f8"
+            ]
+        ]
+    },
+    {
+        "id": "5dad02b7.a252fc",
+        "type": "debug",
+        "z": "58e28b68.683b0c",
+        "name": "cpu status",
+        "active": true,
+        "complete": "payload",
+        "x": 925,
+        "y": 397,
+        "wires": []
+    },
+    {
+        "id": "c0c482df.3f3b8",
+        "type": "debug",
+        "z": "58e28b68.683b0c",
+        "name": "device data",
+        "active": true,
+        "console": "false",
+        "complete": "true",
+        "x": 318,
+        "y": 403,
+        "wires": []
+    },
+    {
+        "id": "80621eff.7f9de",
+        "type": "template",
+        "z": "58e28b68.683b0c",
+        "name": "No",
+        "field": "",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "Steps ({{payload}}) not valid",
+        "x": 721,
+        "y": 429,
+        "wires": [
+            [
+                "5dad02b7.a252fc"
+            ]
+        ]
+    },
+    {
+        "id": "8e1706a.f71e8f8",
+        "type": "template",
+        "z": "58e28b68.683b0c",
+        "name": "Yes",
+        "field": "",
+        "fieldType": "msg",
+        "syntax": "mustache",
+        "template": "Steps ({{payload}}) working",
+        "x": 721,
+        "y": 482,
+        "wires": [
+            [
+                "5dad02b7.a252fc"
+            ]
+        ]
+    },
+    {
+        "id": "cbe1a0b7.cd877",
+        "type": "ibmiot out",
+        "z": "58e28b68.683b0c",
+        "authentication": "boundService",
+        "apiKey": "",
+        "outputType": "evt",
+        "deviceId": "SmartWatch1",
+        "deviceType": "SmartWatch",
+        "eventCommandType": "update",
+        "format": "temp:10",
+        "data": "steps",
+        "qos": "",
+        "name": "Send to IBM IoT Platform",
+        "service": "registered",
+        "x": 642,
+        "y": 98,
+        "wires": []
+    },
+    {
+        "id": "86df0b6c.af90c8",
+        "type": "comment",
+        "z": "58e28b68.683b0c",
+        "name": "Smartwatch Schritte",
+        "info": "Smartwatch von Chris",
+        "x": 103,
+        "y": 47,
+        "wires": []
+    },
+    {
+        "id": "141b7c7.ad42a84",
+        "type": "comment",
+        "z": "58e28b68.683b0c",
+        "name": "Send Mail with Step Count",
+        "info": "",
+        "x": 641,
+        "y": 206,
+        "wires": []
+    },
+    {
+        "id": "7926c7b2.86d938",
+        "type": "comment",
+        "z": "58e28b68.683b0c",
+        "name": "Steps Monitor",
+        "info": "",
+        "x": 86,
+        "y": 458,
+        "wires": []
+    },
+    {
+        "id": "188a5e87.e775a1",
+        "type": "comment",
+        "z": "58e28b68.683b0c",
+        "name": "Get Mail",
+        "info": "",
+        "x": 80,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b827817c.7e9a88",
+        "type": "function",
+        "z": "58e28b68.683b0c",
+        "name": "Device payload",
+        "func": "// Array of pseudo random \n//var steps1 = [1724,1881,2000,2105,2321,2411,2222,1908,msg.payload,1301];\nvar steps1 = msg.payload;\n\n// Counter to select from array.\nvar counter1 = context.get('counter1')||0;\ncounter1 = counter1+1;\nif(counter1 > 9) counter1 = 0;\ncontext.set('counter1',counter1);\n\n// Create MQTT message in JSON\nmsg = {\n  payload: JSON.stringify(\n    {\n      d:{\n        \"steps\" : steps1[counter1],\n      }\n    }\n  )\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 282,
+        "y": 108,
+        "wires": [
+            [
+                "e084f01c.c232f8"
+            ]
+        ]
+    },
+    {
+        "id": "75cc2a49.4f3884",
+        "type": "json",
+        "z": "58e28b68.683b0c",
+        "name": "",
+        "x": 245,
+        "y": 452,
+        "wires": [
+            [
+                "ae0082ac.51ff8"
+            ]
+        ]
+    },
+    {
+        "id": "2484d916.e88726",
+        "type": "http request",
+        "z": "58e28b68.683b0c",
+        "name": "",
+        "method": "POST",
+        "ret": "obj",
+        "url": "",
+        "tls": "",
+        "x": 567,
+        "y": 49,
+        "wires": [
+            [
+                "ac9f131b.b407f"
+            ]
+        ]
+    },
+    {
+        "id": "8e3b6416.2ec0b",
+        "type": "function",
+        "z": "58e28b68.683b0c",
+        "name": "GoogleFit",
+        "func": "\nmsg.url= \"https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate\" ;\n\nmsg.method =\"POST\" ;\n\nmsg.headers = {\n    \"Host\": \"www.googleapis.com\",\n    \"Authorization\": \"Bearer ya29.CjCyA4n9rMVDiWpZV2HFZBe4oWG7bggYO4zN4_jqn27KJkyf-rmRNlWANeET0A2hRrU\",\n    \"Content-type\": \"application/json\"\n         \n     };\n     \nmsg.payload= {\n  \"aggregateBy\": [{\n    \"dataTypeName\": \"com.google.step_count.delta\",\n    \"dataSourceId\": \"derived:com.google.step_count.delta:com.google.android.gms:estimated_steps\"\n  }],\n  \"bucketByTime\": { \"durationMillis\": 86400000 },\n  \"startTimeMillis\": 1475272800000,\n  \"endTimeMillis\": 1476914400000 };\n     return msg;\n     \n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 412.5,
+        "y": 47,
+        "wires": [
+            [
+                "2484d916.e88726"
+            ]
+        ]
+    },
+    {
+        "id": "7f0fda9.d1c8b24",
+        "type": "inject",
+        "z": "58e28b68.683b0c",
+        "name": "Start",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 273.5,
+        "y": 46,
+        "wires": [
+            [
+                "8e3b6416.2ec0b"
+            ]
+        ]
+    },
+    {
+        "id": "ac9f131b.b407f",
+        "type": "function",
+        "z": "58e28b68.683b0c",
+        "name": "Schritte",
+        "func": "var stepCountArray = [];\nfor(var i = 0; i < msg.payload.bucket.length; i++){\n  stepCountArray.push(msg.payload.bucket[i].dataset[0].point[0].value[0].intVal);\n}\nmsg.payload = stepCountArray;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 103.5,
+        "y": 108,
+        "wires": [
+            [
+                "b827817c.7e9a88"
+            ]
+        ]
+    },
+    {
+        "id": "64827d1d.9dd02c",
+        "type": "e-mail",
+        "z": "58e28b68.683b0c",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "name": "hermanhollerithzentrum@gmail.com",
+        "dname": "",
+        "x": 815.5,
+        "y": 166,
+        "wires": []
+    },
+    {
+        "id": "3ea69529.b005da",
+        "type": "e-mail in",
+        "z": "58e28b68.683b0c",
+        "name": "",
+        "protocol": "IMAP",
+        "server": "imap.gmail.com",
+        "useSSL": true,
+        "port": "993",
+        "box": "INBOX",
+        "disposition": "None",
+        "repeat": "25",
+        "x": 245.5,
+        "y": 360,
+        "wires": [
+            [
+                "917287fe.72a25"
+            ]
+        ]
+    },
+    {
+        "id": "917287fe.72a25",
+        "type": "switch",
+        "z": "58e28b68.683b0c",
+        "name": "Validation",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "Ich stimme zu",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 379.5,
+        "y": 361,
+        "wires": [
+            [
+                "78e0bcde.7f291c"
+            ],
+            [
+                "90e691e.990047"
+            ]
+        ]
+    },
+    {
+        "id": "90e691e.990047",
+        "type": "template",
+        "z": "58e28b68.683b0c",
+        "name": "No",
+        "field": "",
+        "fieldType": "msg",
+        "format": "markdown",
+        "syntax": "mustache",
+        "template": "Konsens nicht erreicht",
+        "x": 521,
+        "y": 391,
+        "wires": [
+            [
+                "5dad02b7.a252fc"
+            ]
+        ]
+    },
+    {
+        "id": "78e0bcde.7f291c",
+        "type": "template",
+        "z": "58e28b68.683b0c",
+        "name": "Yes",
+        "field": "",
+        "fieldType": "msg",
+        "format": "markdown",
+        "syntax": "mustache",
+        "template": "Konsens erreicht",
+        "x": 516,
+        "y": 333,
+        "wires": [
+            [
+                "5dad02b7.a252fc"
+            ]
+        ]
+    },
+    {
+        "id": "1beca7d8.3bd148",
+        "type": "function",
+        "z": "58e28b68.683b0c",
+        "name": "Mail Text",
+        "func": "msg.payload= \"Hallo lieber Nutzer, dies sind meine Schritte: \" + msg.payload;\nmsg.topic = \"Stepcount\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 586.5,
+        "y": 166,
+        "wires": [
+            [
+                "64827d1d.9dd02c"
+            ]
+        ]
+    },
+    {
+        "id": "e084f01c.c232f8",
+        "type": "switch",
+        "z": "58e28b68.683b0c",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "steps",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "steps",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 441.5,
+        "y": 108,
+        "wires": [
+            [
+                "cbe1a0b7.cd877"
+            ],
+            [
+                "1beca7d8.3bd148"
+            ]
+        ]
+    }
+]
