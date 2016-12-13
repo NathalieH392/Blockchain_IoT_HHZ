@@ -7,4 +7,7 @@ If you are interestested in this project, please feel free to use our wiki and k
 
 In case you want to contact us, use the following mail address: info@hhz.de.
 
-Cheers, your MileChain (invented name) Team.
+Cheers, your MileChain Team.
+
+
+All names are invented, except for the Herman Hollerith Center (HHZ). 
